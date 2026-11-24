@@ -1,7 +1,7 @@
 # Stockfish Analysis -- Plan v1
 
 *Status: plan, choices settled with the developer (2026-10-09), awaiting
-approval. Step 2 of aio64-design-v1.md; builds on hello-board-spike-v1.md.*
+approval. Step 2 of mcp64-design-v1.md; builds on hello-board-spike-v1.md.*
 
 ## Goal
 
@@ -79,7 +79,7 @@ lines -> arrow list.
 - description: "Analyze a chess position with Stockfish and show it on a
   board.";
 - input `{ fen: string }`; validated with chess.js as in `show_position`;
-- `_meta.ui.resourceUri: "ui://aio64/board.html"` (same widget);
+- `_meta.ui.resourceUri: "ui://mcp64/board.html"` (same widget);
 - result: the text above, plus `structuredContent: { fen, arrows }`, with
   `arrows: [{ from, to }]` in line order.
 
@@ -90,7 +90,7 @@ lines -> arrow list.
 - If `structuredContent.arrows` is present, set them as chessground
   `drawable.autoShapes`: first line brush `green`, the others
   `paleGreen`. Otherwise clear shapes.
-- **Coordinates: none** (developer, 2026-10-09). Aio64 is for the
+- **Coordinates: none** (developer, 2026-10-09). mcp64 is for the
   developer alone, who does not need them; this also removes the Step 1
   defect (chessground's base CSS places them for Lichess's own layout).
 
@@ -135,7 +135,7 @@ widget/board.html    coordinates CSS
 - **Stale widget:** the board still showed coordinates although the
   server served the new build (`resources/read` contained
   `coordinates:!1`). claude.ai caches widget HTML by URI. Fix: the URI now
-  carries a hash of the built HTML (`ui://aio64/board-<hash>.html`).
+  carries a hash of the built HTML (`ui://mcp64/board-<hash>.html`).
 - **After the hash fix (reconnect + new chat): success.** Arrows shown,
   no coordinates.
 - Still to check: reproducibility (same lines in another new chat), mate

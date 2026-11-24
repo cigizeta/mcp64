@@ -5,7 +5,7 @@
  */
 
 /** Generic on purpose: never a personal name or address. */
-export const USER_AGENT = "Aio64 (personal chess analysis server)";
+export const USER_AGENT = "mcp64 (personal chess analysis server)";
 
 /** What one account's sync did. */
 export interface SyncCounts {

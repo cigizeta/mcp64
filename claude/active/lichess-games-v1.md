@@ -5,7 +5,7 @@
 ## Goal
 
 Let Claude review the developer's own past Lichess games, with Stockfish
-through Aio64, and explain them in human language.
+through mcp64, and explain them in human language.
 
 ## Settled (developer, 2026-10-09)
 
@@ -14,7 +14,7 @@ through Aio64, and explain them in human language.
   refuses games in progress. Enforced in code, not left to Claude.
 - `analyze_position` stays unrestricted: copying a FEN by hand is too slow
   to help in a live game, and correspondence games cannot be policed by
-  Aio64 anyway.
+  mcp64 anyway.
 - **Token:** `LICHESS_TOKEN` in the ignored `.env`, created with **no
   scopes** (least privilege: exporting public games needs none; the token
   only raises rate limits and identifies the developer).
@@ -25,7 +25,7 @@ through Aio64, and explain them in human language.
   valid, has an empty `scopes` string, and belongs to the expected user
   (`LICHESS_USER` in `.env`). The developer can run the same check by
   hand with curl.
-- **Aio64 is read-only.** No tool changes anything anywhere: no writes to
+- **mcp64 is read-only.** No tool changes anything anywhere: no writes to
   Lichess (only GET requests, plus the token test), no files written, no
   moves played. Every tool is declared with the MCP annotation
   `readOnlyHint: true`.
@@ -47,7 +47,7 @@ through Aio64, and explain them in human language.
   - the five controls.
 - **One Explain button does both** (developer, 2026-10-09: seeing engine
   output without Claude makes no sense, that exists elsewhere):
-  1. the widget calls Aio64 (`callServerTool`) for Stockfish's lines and
+  1. the widget calls mcp64 (`callServerTool`) for Stockfish's lines and
      draws arrows and the evaluation at once;
   2. the widget sends the result into the chat (`sendMessage`): position,
      the move actually played, the engine lines; Claude explains it in
@@ -90,10 +90,10 @@ newest first):
 
 - Server-side filters: `since`/`until`, `max`, `vs` (opponent), `color`,
   `perfType` (bullet, blitz, rapid, classical, correspondence...),
-  `rated`, `analysed`; finished games only by default (Aio64 asks for
+  `rated`, `analysed`; finished games only by default (mcp64 asks for
   finished games explicitly).
 - No server-side filter by result or opening; both are in each game, so
-  Aio64 can filter them itself, scanning a capped number of games.
+  mcp64 can filter them itself, scanning a capped number of games.
 
 Proposed shape (not yet agreed): one model-visible `search_games` tool
 returning one compact line per game (~20 tokens), e.g.
@@ -146,7 +146,7 @@ the viewer would have made them the same thing anyway):
   its state (line, ply, player, color, loaded game) in server memory via
   an app-only tool and gets a short ID; the Explain message asks Claude
   to reopen with that ID only. Lost on server restart (the widget then
-  opens at the start position). Memory only: no files written, so Aio64
+  opens at the start position). Memory only: no files written, so mcp64
   stays read-only.
 - **One model-visible tool for the widget: `open_board`** (developer,
   2026-10-09, name chosen deliberately), with optional `game`, `player`,
@@ -228,7 +228,7 @@ most); this tab is game-first.
   local Polyglot book. Nothing else (no review markers, no Explain
   context).
 - The developer supplies the `.bin` file; **never committed**. Its path
-  goes in the ignored `.env` (like `STOCKFISH_PATH`). Aio64 only reads it.
+  goes in the ignored `.env` (like `STOCKFISH_PATH`). mcp64 only reads it.
 - Library candidate: `@echecs/polyglot` (with `@echecs/zobrist`, the 781
   standard keys); license to check on install (must be GPL-compatible).
   Verified at startup against the test keys of the Polyglot format

@@ -37,7 +37,7 @@ hand with `POST /api/token/test`: right user, `scopes` empty, no expiry.
   space-separated), `players.white|black.user.name` and `.rating`,
   `winner`, `opening.name`.
 - **Refuse unfinished games:** `status` `created` or `started` -> tool
-  error "This game is not finished; Aio64 analyzes finished games only."
+  error "This game is not finished; mcp64 analyzes finished games only."
 - Refuse non-standard variants (chess960, crazyhouse, ...) for now:
   "Only standard chess is supported." `fromPosition` is accepted (it has
   an `initialFen`).
@@ -130,7 +130,7 @@ widget/board.html    header, status line, controls markup and CSS
 - A game opened in the viewer; Explain worked end to end.
 - **`sendMessage` on claude.ai fills the message box; the developer
   presses Enter to send it.** The host never sends in the user's name by
-  itself. Not changeable by Aio64, and consistent with its principles.
+  itself. Not changeable by mcp64, and consistent with its principles.
 
 - **Scrolling problem** (developer): after each explanation the viewer is
   above, out of sight; scrolling back up each time is not acceptable.

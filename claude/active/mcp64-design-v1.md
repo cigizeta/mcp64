@@ -1,32 +1,32 @@
-# Aio64 -- Design and Plan v1
+# mcp64 -- Design and Plan v1
 
 *Status: design agreed in discussion (2026-10-09); Step 0 not started.*
 
-## What Aio64 is
+## What mcp64 is
 
 A remote MCP server that the developer connects to Claude (web and mobile)
 as a custom connector. Claude shows chess positions in a board widget and
-explains them in human language; Aio64 runs Stockfish behind the hood to
+explains them in human language; mcp64 runs Stockfish behind the hood to
 ground those explanations.
 
 ## Ground rules
 
 - **Never pay.** No API key (the opposite of Mentes: here Claude calls
-  Aio64, and the developer's claude.ai subscription pays for the
-  conversation) and no VPS. Aio64 runs at home on Windows.
+  mcp64, and the developer's claude.ai subscription pays for the
+  conversation) and no VPS. mcp64 runs at home on Windows.
 - **Economy.** Every tool definition and tool result lands in Claude's
   context and counts against the subscription quota: few tools, short
   descriptions, compact results.
 - **GPLv3.**
-- **No engine bundled.** The developer installs Stockfish; Aio64 talks UCI
+- **No engine bundled.** The developer installs Stockfish; mcp64 talks UCI
   to it as a child process, configured by the full path to `stockfish.exe`.
-  Pure interop, no GPL question flows either way (and Aio64 is GPL anyway).
+  Pure interop, no GPL question flows either way (and mcp64 is GPL anyway).
 
 ## Architecture
 
 ```
 Claude (web/mobile) --HTTPS--> ngrok static domain --> localhost:<port>
-                                                         Aio64 (Node, TS)
+                                                         mcp64 (Node, TS)
                                                            |-- MCP over Streamable HTTP
                                                            |-- ui:// board widget (MCP Apps)
                                                            `-- stockfish.exe (UCI, stdin/stdout)
@@ -79,11 +79,11 @@ Required from the start, because the ngrok URL is public.
   Add custom connector form offers Authentication (Sign in now / Sign in
   when needed / No sign-in), OAuth client options (CIMD, DCR, own client),
   and **Request headers** (up to four, stored securely, never shown
-  again). Header names are picked from a fixed list, not typed. Aio64 uses
-  **No sign-in** plus `x-api-key: <AIO64_TOKEN>`, leaving `Authorization`
+  again). Header names are picked from a fixed list, not typed. mcp64 uses
+  **No sign-in** plus `x-api-key: <MCP64_TOKEN>`, leaving `Authorization`
   free for OAuth later.
 - **If no static header had been possible** (kept for reference): OAuth from the start instead of
-  later. Aio64 then acts as its own single-user authorization server (the
+  later. mcp64 then acts as its own single-user authorization server (the
   MCP TypeScript SDK ships auth router helpers), with a login/consent page
   protected by a local password and short-lived access tokens. Designed in
   its own doc if needed.
@@ -99,7 +99,7 @@ Required from the start, because the ngrok URL is public.
   - `@modelcontextprotocol/ext-apps` -- MCP Apps widget helpers.
   - `zod` -- tool input schemas.
   - `chess.js` (BSD-2) -- FEN validation, SAN/UCI conversion.
-  - Board renderer: `chessground` (GPL-3.0, Lichess) is allowed since Aio64
+  - Board renderer: `chessground` (GPL-3.0, Lichess) is allowed since mcp64
     is GPLv3; `cm-chessboard` (MIT) is the alternative. To pick in Step 1.
   - HTTP layer: plain `node:http` or a minimal library (Hono or Express).
 - Child processes: spawn the real executable path (`stockfish.exe`),
@@ -108,7 +108,7 @@ Required from the start, because the ngrok URL is public.
 ## Repository cleanup
 
 Mentes now lives in its own repository, created from the `mentes-final`
-tag, which must never be moved or deleted. This repository becomes Aio64
+tag, which must never be moved or deleted. This repository becomes mcp64
 only.
 
 - Done by Claude (2026-10-09): rewrote `README.md`, `CLAUDE.md`,
@@ -133,7 +133,7 @@ only.
    **Results so far (2026-10-09, machine `apollo`):** ngrok agent updated
    from 3.3.1 (free accounts now need 3.20.0+); `ngrok http 8000` uses the
    account's free dev domain automatically (kept only in the ignored
-   `.env` as `PUBLIC_URL`, never in committed files). Aio64 listens on
+   `.env` as `PUBLIC_URL`, never in committed files). mcp64 listens on
    port 8000; the connector URL is `$PUBLIC_URL/mcp`.
 1. **Hello board spike.** Minimal server with `show_position` returning a
    widget for a fixed FEN, behind auth, through ngrok; check on web and

@@ -1,13 +1,13 @@
 # Hello Board Spike -- Plan v1
 
 *Status: plan, choices settled with the developer (2026-10-09), awaiting
-approval to implement. Step 1 of aio64-design-v1.md.*
+approval to implement. Step 1 of mcp64-design-v1.md.*
 
 ## Goal
 
 Prove the whole chain end to end:
 
-Claude (web and mobile) -> ngrok -> Aio64 on `localhost:8000` -> one tool
+Claude (web and mobile) -> ngrok -> mcp64 on `localhost:8000` -> one tool
 whose result shows a given position on a chessground board in the
 conversation.
 
@@ -23,7 +23,7 @@ Out of scope: Stockfish, interactivity, board orientation.
 - **Run:** `tsx`, no server build step; `tsc --noEmit` type-checks.
 - **HTTP:** plain `node:http`, no framework.
 - **Auth header:** only `X-Api-Key: <token>`. `Authorization` stays free
-  for OAuth later. (Planned as `X-Aio64-Token`, but the connector form
+  for OAuth later. (Planned as `X-mcp64-Token`, but the connector form
   offers no custom header names; `x-api-key` was the available choice.)
 - **MCP sessions:** stateless.
 - **Board:** chessground (GPL-3.0, Lichess) from the start.
@@ -73,7 +73,7 @@ are data URIs) end up inline in `dist/board.html`.
 
 ## server.ts
 
-1. **Config.** Read `PORT` and `AIO64_TOKEN` from `process.env` (loaded by
+1. **Config.** Read `PORT` and `MCP64_TOKEN` from `process.env` (loaded by
    `--env-file`). Exit with a clear message if the token is missing or
    shorter than 32 characters. Read `dist/board.html` once at startup;
    exit if missing ("run npm run build:widget").
@@ -87,14 +87,14 @@ are data URIs) end up inline in `dist/board.html`.
    undefined`, then `transport.handleRequest(req, res, body)`. GET and
    DELETE on `/mcp` answer 405.
 5. **Widget resource.** `registerAppResource` (from
-   `@modelcontextprotocol/ext-apps/server`), URI `ui://aio64/board.html`,
+   `@modelcontextprotocol/ext-apps/server`), URI `ui://mcp64/board.html`,
    MIME type `RESOURCE_MIME_TYPE` (`text/html;profile=mcp-app`), content
    the built HTML.
 6. **Tool.** `registerAppTool`:
    - name `show_position`;
    - description: "Show a chess position on a board.";
    - input: `{ fen: string }` (zod), described as "FEN of the position";
-   - `_meta.ui.resourceUri: "ui://aio64/board.html"`;
+   - `_meta.ui.resourceUri: "ui://mcp64/board.html"`;
    - validate with chess.js (`validateFen`); invalid -> `isError: true`
      with the validator's one-line reason;
    - valid -> text "Board shown." plus `structuredContent: { fen }`.
@@ -130,9 +130,9 @@ Add `dist/` (already present).
 3. Terminal 1: `npm run dev`
 4. Terminal 2: `ngrok http 8000`
 5. Negative test, no header: `curl -i -X POST https://<domain>/mcp` -> 401.
-6. claude.ai > Settings > Connectors > Add custom connector: name `Aio64`,
+6. claude.ai > Settings > Connectors > Add custom connector: name `mcp64`,
    URL `https://<domain>/mcp`, Continue (anyway), Authentication
-   **No sign-in**, Request header `x-api-key` = `<AIO64_TOKEN>`.
+   **No sign-in**, Request header `x-api-key` = `<MCP64_TOKEN>`.
 7. New chat, connector enabled: "Show me the position after 1.e4 e5 2.Nf3
    Nc6 3.Bb5 on a board." The board renders inline with that position.
    Then ask for an invalid FEN on purpose and see Claude handle the error.

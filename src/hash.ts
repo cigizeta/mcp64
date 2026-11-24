@@ -1,7 +1,7 @@
 import { KEYS } from "@echecs/zobrist";
 
 /**
- * The positions' hash in every Aio64 database (accounts and master): the
+ * The positions' hash in every mcp64 database (accounts and master): the
  * Polyglot Zobrist key, over the standard Random64 table (KEYS, from
  * @echecs/zobrist). A position is identified by its pieces, side to move,
  * castling rights and a capturable en passant square, so transpositions

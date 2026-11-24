@@ -8,7 +8,7 @@ browser-engine-spike-v1.md (answer: yes, Stockfish.js runs in the widget
 on claude.ai) and replaces the server analysis of live-analysis-v1.md.*
 
 *Addition (developer, 2026-10-09): the engine (loader and `.wasm`, the
-lite NNUE compiled in) is kept in IndexedDB (database `aio64`, store
+lite NNUE compiled in) is kept in IndexedDB (database `mcp64`, store
 `engine`, one entry), as Lichess keeps its networks; the manifest carries
 a version (hash of the `.wasm`) and a mismatch downloads again. Storage
 failures fall back to downloading. While testing whether claude.ai's

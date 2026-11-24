@@ -8,7 +8,9 @@
   Zod 4 (zod4-plan-v1.md), Explain with the board beside the chat
   (explain-command-v1.md).
 - **Next:** the phone check (below), then the "Later" items.
-- **Project split:** Aio64 analyzes the developer's games with Claude;
+- **Renamed (2026-11-24):** formerly named Aio64; the name now belongs
+  to another of the developer's apps (rename-mcp64-v1.md).
+- **Project split:** mcp64 analyzes the developer's games with Claude;
   Mentes becomes a database app; a master database with W/D/L is
   planned in a separate project.
 
@@ -37,7 +39,7 @@ repository and must never be pushed here.
   `SPDX-License-Identifier: AGPL-3.0-only`); consider a short legal
   consultation (the license choice was not legal advice).
 - OAuth instead of the static `x-api-key` header: not needed while each
-  user runs their own server with their own `AIO64_TOKEN`.
+  user runs their own server with their own `MCP64_TOKEN`.
 
 ## Later
 

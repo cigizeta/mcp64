@@ -1,6 +1,6 @@
-# Aio64
+# mcp64
 
-**Aio64** is an MCP server that lets Claude show chess positions in a board
+**mcp64** is an MCP server that lets Claude show chess positions in a board
 widget and explain them in human language, with Stockfish.js analyzing
 them in the browser. Written in TypeScript.
 
@@ -22,7 +22,7 @@ in the mobile app.
   All Games lists and filters them; the Explorer shows the moves played
   from the position on the board, with game counts and results.
 - **Master database**: optionally, the Explorer's Master source, built by
-  Aio64 from any PGN collection you choose (see below).
+  mcp64 from any PGN collection you choose (see below).
 
 <table><tr><td style="border: 2px solid; padding: 8px 12px;">
 💡 <b>Tip (desktop only): click the board's expand button (the two
@@ -57,14 +57,14 @@ the server hands the same files to the widget, more slowly.
 Commands are for Bash (Git Bash on Windows).
 
 ```bash
-git clone <repository-url> aio64
-cd aio64
+git clone <repository-url> mcp64
+cd mcp64
 npm install
 cp .env.example .env
 ```
 
 npm may warn that `stockfish` has an install script not covered by
-`allowScripts`; it only creates aliases for a build Aio64 does not use,
+`allowScripts`; it only creates aliases for a build mcp64 does not use,
 so leave it unapproved.
 
 Fill in `.env`:
@@ -73,7 +73,7 @@ Fill in `.env`:
 |---|---|
 | `PUBLIC_URL` | your ngrok domain, e.g. `https://<your-domain>.ngrok-free.dev` |
 | `PORT` | local port, `8000` by default |
-| `AIO64_TOKEN` | a random secret of at least 32 characters (see below) |
+| `MCP64_TOKEN` | a random secret of at least 32 characters (see below) |
 | `LICHESS_USERS` | Lichess usernames whose finished games are kept, comma-separated |
 | `CHESSCOM_USERS` | Chess.com usernames whose finished games are kept, comma-separated |
 
@@ -81,7 +81,7 @@ At least one of `LICHESS_USERS` and `CHESSCOM_USERS` must list an
 account. Each account's finished games are kept in its own SQLite file in
 `games/`, which Git ignores; only the sync writes there.
 
-Generate `AIO64_TOKEN`:
+Generate `MCP64_TOKEN`:
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
@@ -129,9 +129,9 @@ per tool call.
 In claude.ai, Settings > Connectors > Add custom connector:
 
 - URL: `$PUBLIC_URL/mcp`
-- Request header: `X-Api-Key` with the value of `AIO64_TOKEN`.
+- Request header: `X-Api-Key` with the value of `MCP64_TOKEN`.
 
-Then, in a chat: "Show the Aio64 board", or paste a FEN and ask Claude to
+Then, in a chat: "Show the mcp64 board", or paste a FEN and ask Claude to
 explain it.
 
 claude.ai caches a connector's tool list and its widgets: after changing a

@@ -6,7 +6,7 @@ import { position, positionKey } from "./tree.js";
 
 /**
  * Stockfish.js 19 lite single-threaded (WebAssembly), running in the widget:
- * all of Aio64's analysis. Infinite analysis of the position on screen,
+ * all of mcp64's analysis. Infinite analysis of the position on screen,
  * MultiPV 3, one thread (the build's only mode), 16 MB hash kept between
  * positions (stepping
  * through a game reuses earlier work). Each completed depth is reported at
@@ -132,15 +132,15 @@ export async function startEngine(
     receive("uciok");
     return;
   } catch (error) {
-    console.warn("aio64: CDN engine failed, falling back to the server", error);
+    console.warn("mcp64: CDN engine failed, falling back to the server", error);
   }
   try {
-    const { pieces } = JSON.parse(await readText(app, "ui://aio64/engine/manifest.json")) as { pieces: number };
-    const js = await readText(app, "ui://aio64/engine/engine.js");
+    const { pieces } = JSON.parse(await readText(app, "ui://mcp64/engine/manifest.json")) as { pieces: number };
+    const js = await readText(app, "ui://mcp64/engine/engine.js");
     const parts: string[] = [];
     for (let i = 0; i < pieces; i++) {
       onStatus(`loading engine ${i + 1}/${pieces}...`);
-      parts.push(await readText(app, `ui://aio64/engine/wasm-${i}.b64`));
+      parts.push(await readText(app, `ui://mcp64/engine/wasm-${i}.b64`));
     }
     // The loader takes its .wasm address from the worker URL's fragment, so
     // both become blob: URLs.

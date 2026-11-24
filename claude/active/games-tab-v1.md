@@ -6,7 +6,7 @@ buttons do not fit the widget width.*
 
 *Change (developer, 2026-10-09): Lichess's export is ordered by start
 date only (verified: a 13-day correspondence game that ended last came
-third of three). Aio64 fetches the last 50 games by start, without moves,
+third of three). mcp64 fetches the last 50 games by start, without moves,
 sorts them by `lastMoveAt`, and shows the 10 that ended most recently. A
 game started before those 50 is missed; accepted.*
 

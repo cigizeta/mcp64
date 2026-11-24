@@ -12,8 +12,8 @@ const stockfishVersion = (
   }
 ).version;
 
-// Aio64's own version (CalVer, YYYY.M.MICRO), kept only in package.json.
-const aio64Version = (
+// mcp64's own version (CalVer, YYYY.M.MICRO), kept only in package.json.
+const mcp64Version = (
   JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8")) as { version: string }
 ).version;
 
@@ -25,7 +25,7 @@ export default defineConfig({
   plugins: [viteSingleFile()],
   define: {
     __STOCKFISH_VERSION__: JSON.stringify(stockfishVersion),
-    __AIO64_VERSION__: JSON.stringify(aio64Version),
+    __MCP64_VERSION__: JSON.stringify(mcp64Version),
   },
   build: {
     outDir: "../dist",

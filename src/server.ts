@@ -41,15 +41,15 @@ for (let at = 0; at < engineWasm64.length; at += ENGINE_PIECE) {
 // chat); the resources above are its fallback.
 const BOARD_CSP = { connectDomains: ["https://unpkg.com"] };
 
-// Aio64's version (CalVer, YYYY.M.MICRO), kept only in package.json.
-const AIO64_VERSION = (
+// mcp64's version (CalVer, YYYY.M.MICRO), kept only in package.json.
+const MCP64_VERSION = (
   JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8")) as { version: string }
 ).version;
 
 const port = Number(process.env.PORT ?? 8000);
-const token = process.env.AIO64_TOKEN ?? "";
+const token = process.env.MCP64_TOKEN ?? "";
 if (token.length < 32) {
-  console.error("AIO64_TOKEN missing or shorter than 32 characters (see .env.example)");
+  console.error("MCP64_TOKEN missing or shorter than 32 characters (see .env.example)");
   process.exit(1);
 }
 const tokenBuffer = Buffer.from(token);
@@ -91,7 +91,7 @@ console.log(master ? `Master database: ${master.games} games` : "No master datab
 // claude.ai caches widget HTML by URI, so a fixed URI keeps serving a stale
 // widget after a rebuild. A content hash in the URI makes every build new.
 const boardHash = createHash("sha256").update(boardHtml).digest("hex").slice(0, 8);
-const BOARD_URI = `ui://aio64/board-${boardHash}.html`;
+const BOARD_URI = `ui://mcp64/board-${boardHash}.html`;
 
 function textResult(text: string, isError = false) {
   if (isError) note(`ERROR ${text}`);
@@ -206,7 +206,7 @@ function authorized(req: IncomingMessage): boolean {
 }
 
 function buildMcpServer(): McpServer {
-  const server = new McpServer({ name: "aio64", version: AIO64_VERSION });
+  const server = new McpServer({ name: "mcp64", version: MCP64_VERSION });
 
   registerAppResource(
     server,
@@ -222,19 +222,19 @@ function buildMcpServer(): McpServer {
   // The browser engine: the manifest, the loader, then the .wasm pieces.
   server.registerResource(
     "engine-manifest",
-    "ui://aio64/engine/manifest.json",
+    "ui://mcp64/engine/manifest.json",
     { mimeType: "application/json" },
     async (uri) => {
       note(`${enginePieces.length} pieces`);
       return { contents: [{ uri: uri.href, mimeType: "application/json", text: JSON.stringify({ pieces: enginePieces.length }) }] };
     },
   );
-  server.registerResource("engine-js", "ui://aio64/engine/engine.js", { mimeType: "text/javascript" }, async (uri) => {
+  server.registerResource("engine-js", "ui://mcp64/engine/engine.js", { mimeType: "text/javascript" }, async (uri) => {
     note(`${Math.round(engineJs.length / 1024)} kB`);
     return { contents: [{ uri: uri.href, mimeType: "text/javascript", text: engineJs }] };
   });
   enginePieces.forEach((piece, i) => {
-    server.registerResource(`engine-wasm-${i}`, `ui://aio64/engine/wasm-${i}.b64`, { mimeType: "text/plain" }, async (uri) => {
+    server.registerResource(`engine-wasm-${i}`, `ui://mcp64/engine/wasm-${i}.b64`, { mimeType: "text/plain" }, async (uri) => {
       note(`piece ${i}, ${Math.round(piece.length / 1024)} kB`);
       return { contents: [{ uri: uri.href, mimeType: "text/plain", text: piece }] };
     });
@@ -533,7 +533,7 @@ const httpServer = createServer((req, res) => {
 });
 
 httpServer.listen(port, () =>
-  console.log(`Aio64 listening on http://localhost:${port}/mcp (widget ${BOARD_URI})`),
+  console.log(`mcp64 listening on http://localhost:${port}/mcp (widget ${BOARD_URI})`),
 );
 
 process.on("SIGINT", () => process.exit(0));

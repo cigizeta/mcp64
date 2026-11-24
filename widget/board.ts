@@ -419,10 +419,10 @@ function openBoard(payload: BoardPayload & { trees: Trees }): void {
   }
 }
 
-// Aio64's version, injected at build time from package.json.
-declare const __AIO64_VERSION__: string;
+// mcp64's version, injected at build time from package.json.
+declare const __MCP64_VERSION__: string;
 
-const app = new App({ name: "aio64-board", version: __AIO64_VERSION__ });
+const app = new App({ name: "mcp64-board", version: __MCP64_VERSION__ });
 
 // Only the newest board widget is usable; once a newer one exists (below an
 // explanation, or opened for anything else) this one collapses to a line.

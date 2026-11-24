@@ -17,7 +17,7 @@ export const { DatabaseSync } = createRequire(import.meta.url)("node:sqlite") as
 
 /**
  * One SQLite file per configured account, in games/ (ignored by Git). The
- * only files Aio64 writes; only the sync writes them. The tables are
+ * only files mcp64 writes; only the sync writes them. The tables are
  * general: a file could hold any finished games, from either site.
  */
 

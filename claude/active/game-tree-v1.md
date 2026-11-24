@@ -131,7 +131,7 @@ Stage 2:
 - **Explorer speed, found and fixed:** Lichess's player explorer sends a
   first answer in 0.2 to 1 s, then keeps the connection open while the
   player waits in its global indexing queue (`queuePosition`, moving about
-  5 places in 20 s), sending updated lines if new games turn up. Aio64
+  5 places in 20 s), sending updated lines if new games turn up. mcp64
   waited for the stream to end (15 s timeout). Now it answers with the
   first line, keeps up to 3 streams open for up to 2 minutes in the
   background to update the cache, and the widget refreshes silently from
