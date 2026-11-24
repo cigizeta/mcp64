@@ -14,7 +14,7 @@ apps, so nothing in this repository may keep claiming it.
 - Historical docs in `claude/done/` and `claude/archived/` stay unchanged.
   `TODO.md` gets one line: "Formerly named Aio64."
 - All three tags (`v0.1.0`, `v0.1.1`, `v2026.11.0`) are deleted, locally
-  and on GitHub. `v2026.11.0` is recreated on the rename commit. The
+  and on GitHub, and no new tag is created: `main` is enough. The
   version in `package.json` stays `2026.11.0`.
 - The `mentes-final` tag is not touched.
 
@@ -88,13 +88,7 @@ Delete them on GitHub:
 git push origin --delete v0.1.0 v0.1.1 v2026.11.0
 ```
 
-Recreate `v2026.11.0` on the rename commit:
-
-```
-git tag -a v2026.11.0 -m "mcp64 2026.11.0"
-```
-
-If GitHub has Releases attached to the old tags, deleting a tag turns
+No new tag is created. If GitHub has Releases attached to the old tags, deleting a tag turns
 them into drafts; delete those drafts in the web UI.
 
 ## Step 6 -- rename the GitHub repository (developer)
@@ -110,10 +104,6 @@ Later, after steps 1-5:
 
 ```
 git push origin main
-```
-
-```
-git push origin v2026.11.0
 ```
 
 ## Step 7 -- rename the local folder (developer)
@@ -140,5 +130,5 @@ included) points at `mcp64` (step 6's `set-url`).
 - No `aio64` outside `claude/done/`, `claude/archived/`, and this plan.
 - The server runs from `c:\dev\mcp64`, the mcp64 connector shows the
   board and analyzes.
-- GitHub shows the repository `mcp64` with exactly the tags
-  `v2026.11.0` (on the rename commit) and `mentes-final`.
+- GitHub shows the repository `mcp64` with only the `mentes-final` tag
+  (if it exists there).
